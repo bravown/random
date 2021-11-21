@@ -1,0 +1,34 @@
+server:
+  port: 8081
+
+spring:
+  mvc:
+    view:
+      suffix: .vm
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/random?serverTimezone=UTC
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  application:
+    name: rabbitmq-provider
+  #配置rabbitMq 服务器
+  rabbitmq:
+    host: 192.168.66.131
+    port: 5672
+    username: guest
+    password: guest
+    #virtual-host:
+    # ------- 消息确认配置项 --------
+    # 确认消息已发送到交换机
+    #publisher-confirms: true
+    # 确认消息已发送队列
+    #publisher-returns: true
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.wn.entity
+
+
