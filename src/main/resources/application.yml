@@ -12,7 +12,21 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
-
+    # 数据库连接池，用的阿里的druid
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    filters: stat,wall,log4j
+    initialSize: 5
+    maxActive: 50
+    maxPoolPreparedStatementPerConnectionSize: 20
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 300000
+    minIdle: 5
+    poolPreparedStatements: true
+    testOnBorrow: false
+    testOnReturn: false
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    useGlobalDataSourceStat: true
   application:
     name: rabbitmq-provider
   #配置rabbitMq 服务器
@@ -27,8 +41,12 @@ spring:
     #publisher-confirms: true
     # 确认消息已发送队列
     #publisher-returns: true
+
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.wn.entity
+  # 控制台能输出sql
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 

@@ -1,7 +1,11 @@
 package com.wn.controller;
 
 import com.wn.entity.User;
+import com.wn.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 第一个控制器
@@ -12,15 +16,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("one")
 public class OneController {
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @PostMapping("/one")
     public String first(@RequestBody User name) {
         System.out.println(name);
         return name.toString();
     }
+
     @GetMapping("/two")
     public String second(@RequestBody User name, @RequestParam("token") String token) {
-        System.out.println(name+"/br");
+        System.out.println(name + "/br");
         System.out.println(token);
-        return token+"->"+name;
+        return token + "->" + name;
+    }
+
+    @PostMapping("/queryUser")
+    public List<User> queryUser() {
+        return userService.queryUser();
+    }
+
+    @PostMapping("/addUser")
+    public int addUser() {
+        int i = userService.addUser();
+        return i;
     }
 }
