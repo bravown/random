@@ -1,4 +1,5 @@
 import com.wn.RandomApplication;
+import com.wn.mapper.UserMapper;
 import com.wn.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,8 @@ public class MyTest {
 
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private UserMapper userMapper;
 
     @Test
     public void Test1(){
@@ -30,5 +33,6 @@ public class MyTest {
     @Test
     public void Test2(){
         System.out.println(userService.queryUser());
+        System.out.println(userMapper.selectList(null));
     }
 }

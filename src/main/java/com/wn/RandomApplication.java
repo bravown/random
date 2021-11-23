@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableRabbit
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan(basePackages = "com/wn/mapper")
+@MapperScan("com.wn.mapper")
 public class RandomApplication {
 
 	public static void main(String[] args) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wn.mapper.UserMapper">
+
     <resultMap id="myUser" type="com.wn.entity.User">
         <result property="id" column="id" />
         <result property="name" column="name" />
@@ -12,6 +13,7 @@
         *
         from user
     </select>
+
     <insert id="addUser" parameterType="com.wn.entity.User">
         insert `user` (`name`,`age`)
         values (#{name},#{age})

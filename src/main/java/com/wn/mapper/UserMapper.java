@@ -1,15 +1,13 @@
 package com.wn.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wn.entity.User;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 /**
  * @author 王宁 2021/11/22
  */
-@Component
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
     List<User> queryUser();
     int addUser(User user);

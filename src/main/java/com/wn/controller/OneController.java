@@ -1,6 +1,7 @@
 package com.wn.controller;
 
 import com.wn.entity.User;
+import com.wn.service.UserService;
 import com.wn.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.List;
 public class OneController {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @PostMapping("/one")
     public String first(@RequestBody User name) {
@@ -40,6 +41,11 @@ public class OneController {
     @PostMapping("/addUser")
     public int addUser() {
         int i = userService.addUser();
+        return i;
+    }
+    @PostMapping("/selectUser")
+    public int selectUser() {
+        int i = userService.selectUser();
         return i;
     }
 }
