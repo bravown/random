@@ -28,6 +28,7 @@ spring:
     testWhileIdle: true
     timeBetweenEvictionRunsMillis: 60000
     useGlobalDataSourceStat: true
+
   application:
     name: rabbitmq-provider
   #配置rabbitMq 服务器
@@ -49,7 +50,6 @@ mybatis:
   # 控制台能输出sql,失效了
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 
 mybatis-plus:
   configuration:

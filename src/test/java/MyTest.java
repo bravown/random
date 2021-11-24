@@ -35,4 +35,9 @@ public class MyTest {
         System.out.println(userService.queryUser());
         System.out.println(userMapper.selectList(null));
     }
+
+    @Test
+    public void Test3(){
+
+    }
 }

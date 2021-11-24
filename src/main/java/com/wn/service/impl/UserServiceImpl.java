@@ -32,6 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setName("陈").setAge(13);
         return userMapper.addUser(user);
     }
+
     @Override
     public int selectUser() {
         LambdaQueryWrapper<User> queryLambda = Wrappers.<User>lambdaQuery().eq(User::getAge, 12);
