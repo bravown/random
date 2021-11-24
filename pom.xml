@@ -93,12 +93,5 @@
             <artifactId>p6spy</artifactId>
             <version>3.8.7</version>
         </dependency>
-
-        <!--mybatis-->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.5.4</version>
-        </dependency>
     </dependencies>
 </project>

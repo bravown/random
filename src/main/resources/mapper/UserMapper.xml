@@ -8,11 +8,11 @@
         <result property="age" column="age" />
     </resultMap>
 
-    <select id="queryUser" resultMap="myUser">
-        select
-        *
-        from user
-    </select>
+<!--    <select id="queryUser" resultMap="myUser">-->
+<!--        select-->
+<!--        *-->
+<!--        from user-->
+<!--    </select>-->
 
     <insert id="addUser" parameterType="com.wn.entity.User">
         insert `user` (`name`,`age`)

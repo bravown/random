@@ -33,7 +33,6 @@ public class MyTest {
     @Test
     public void Test2(){
         System.out.println(userService.queryUser());
-        System.out.println(userMapper.selectList(null));
     }
 
     @Test
