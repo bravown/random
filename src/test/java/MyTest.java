@@ -1,6 +1,10 @@
 import com.wn.RandomApplication;
 import com.wn.mapper.UserMapper;
-import com.wn.service.impl.UserServiceImpl;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +22,6 @@ import java.util.Map;
 public class MyTest {
 
     @Autowired
-    private UserServiceImpl userService;
-    @Autowired
     private UserMapper userMapper;
 
     @Test
@@ -32,11 +34,20 @@ public class MyTest {
 
     @Test
     public void Test2(){
-        System.out.println(userService.queryUser());
+
     }
 
     @Test
-    public void Test3(){
+    public void Test3()throws Exception{
+        Connection connect = Jsoup.connect("https://blog.csdn.net/javazejian/article/details/71333103");
+        Document doc = connect.post();
+//        System.out.println(doc);
+        Elements element = doc.select("#blogColumnPayAdvert span");
+        System.out.println(element);
+        for (Element element1:element){
+            String href = element1.attr("String");
+            System.out.println("输出的是:"+href);
+        }
 
     }
 }
