@@ -435,12 +435,12 @@ public class MyTest {
 
     @Test
     public void Test23(){
-        redisTemplate.opsForZSet().add("set3:set", s1, 1);
-        redisTemplate.opsForZSet().add("set3:set", s2, 2);
-        redisTemplate.opsForZSet().add("set3:set", s3, 3);
-        redisTemplate.opsForZSet().add("set3:set", s4, 4);
-        redisTemplate.opsForZSet().add("set3:set", s5, 5);
-        redisTemplate.opsForZSet().add("set3:set", user.toString(), 6);
+        redisTemplate.opsForSet().add("set1", s1);
+        redisTemplate.opsForSet().add("set1", s2);
+        redisTemplate.opsForSet().add("set1", s3);
+        redisTemplate.opsForSet().add("set1", s4);
+        redisTemplate.opsForSet().add("set1", s5);
+        redisTemplate.opsForSet().add("set1", user.toString());
 //        redisTemplate.opsForZSet().add("set3:set", a, 1);
     }
     public void Test24(){
