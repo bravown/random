@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,35 @@ import java.util.*;
 @SpringBootTest(classes = RandomApplication.class)
 public class MyTest {
 
+    private static final User user = new User(1L,"李",10);
+    private static final String a[] = {"1", "2", "3", "4", null, "", " ", "一"};
+    private static final String s1 = "123";
+    private static final String s2 = "abc";
+    private static final String s3 = "一二三";
+    private static final String s4 = "";
+    private static final String s5 = " ";
+    private static final String s6 = null;
+
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private RedisUtil redisUtil;
+
+    @Before
+    public void init() {
+        User user = new User();
+        user.setName("李");
+        user.setAge(10);
+        String a[] = {"1", "2", "3", "4", null, "", " ", "一"};
+        String s1 = "123";
+        String s2 = "abc";
+        String s3 = "一二三";
+        String s4 = "";
+        String s5 = " ";
+        String s6 = null;
+    }
 
     @Test
     public void Test1() {
@@ -352,30 +376,113 @@ public class MyTest {
 
     @Test
     public void Test19() {
-//        User user = new User();
-//        user.setName("程");
-//        user.setAge(19);
-//        User user2 = new User();
-//        user2.setName("易");
-//        user2.setAge(11);
-//        List<User> list = new ArrayList<>();
-//        list.add(user2);
-//        list.add(user);
-//        redisTemplate.opsForList().leftPush("user:administrator:list", list);
-//
-//        String[] books = new String[] {"java编程思想", "springboot从入门到精通"};
-//        redisTemplate.opsForList().leftPushAll("book:list", books);
-//        //从左边插入一个集合
-//        List<String> list2 = new ArrayList<String>();
-//        list2.add("鬼泣5");
-//        list2.add("荒野大镖客2");
-//        list2.add("仙剑奇侠传7");
-//        redisTemplate.opsForList().leftPushAll("game:list", list2);
-//        redisUtil.expire("user:administrator:list", 10);
-//        System.out.println(redisUtil.get("a:b:c:username"));
+        User user = new User();
+        user.setName("程");
+        user.setAge(19);
+        User user2 = new User();
+        user2.setName("易");
+        user2.setAge(11);
+        List<User> list = new ArrayList<>();
+        list.add(user2);
+        list.add(user);
+        redisTemplate.opsForList().leftPush("user:administrator:list", list);
+
+        String[] books = new String[]{"java编程思想", "springboot从入门到精通"};
+        redisTemplate.opsForList().leftPushAll("book:list", books);
+        //从左边插入一个集合
+        List<String> list2 = new ArrayList<String>();
+        list2.add("鬼泣5");
+        list2.add("荒野大镖客2");
+        list2.add("仙剑奇侠传7");
+        redisTemplate.opsForList().leftPushAll("game:list", list2);
+        redisUtil.expire("user:administrator:list", 10);
+        System.out.println(redisUtil.get("a:b:c:username"));
         System.out.println(redisTemplate.hasKey("a:b:c:username"));
         System.out.println(redisTemplate.hasKey("book:list"));
         System.out.println(redisTemplate.opsForList().index("book:list", 0));
         System.out.println(redisTemplate.opsForValue().get("a:b:c:username"));
     }
+
+    @Test
+    public void Test20() {
+        redisTemplate.move("a:b:c:username", 1);
+        System.out.println(redisTemplate.opsForList().range("book:list", 0, 100));
+
+    }
+
+    @Test
+    public void Test21() {
+        User user = new User();
+        user.setName("程");
+        String a[] = {"1", "2", "3", "4"};
+        redisTemplate.opsForSet().add("set1:set", "1");
+        redisTemplate.opsForSet().add("set1:set", "2");
+        redisTemplate.opsForSet().add("set1:set", "");
+        redisTemplate.opsForSet().add("set1:set", " ");
+        redisTemplate.opsForSet().add("set1:set", a);
+        redisTemplate.opsForSet().add("set1:set", user.toString());
+//        redisTemplate.opsForSet().remove("set1:set", a);
+//        Object pop = redisTemplate.opsForSet().pop("set1:set");
+//        System.out.println(pop);
+    }
+
+    @Test
+    public void Test22() {
+        redisTemplate.opsForSet().add("set2:set", s1);
+        redisTemplate.opsForSet().add("set2:set", a);
+        redisTemplate.opsForSet().add("set2:set", user.toString());
+    }
+
+
+
+
+
+    @Test
+    public void Test23(){
+
+    }
+    public void Test24(){
+
+    }
+    public void Test25(){
+
+    }
+    public void Test26(){
+
+    }
+    public void Test27(){
+
+    }
+    public void Test28(){
+
+    }
+    public void Test29(){
+
+    }
+    public void Test30(){
+
+    }
+    public void Test31(){
+
+    }
+    public void Test32(){
+
+    }
+    public void Test33(){
+
+    }
+    public void Test34(){
+
+    }
+    public void Test35(){
+
+    }
+    public void Test36(){
+
+    }
+    public void Test37(){
+
+    }
+
+
 }
