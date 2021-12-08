@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.wn.RandomApplication;
 import com.wn.entity.User;
 import com.wn.mapper.UserMapper;
+import com.wn.utils.RedisUtil;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
@@ -30,6 +32,10 @@ public class MyTest {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Test
     public void Test1() {
@@ -285,12 +291,12 @@ public class MyTest {
         String current = String.valueOf(System.currentTimeMillis());
         System.out.println(current);
 
-        Date date1 =new Date(current);
-        System.out.println("date"+date1);
+        Date date1 = new Date(current);
+        System.out.println("date" + date1);
     }
 
     @Test
-    public void Test15() throws Exception{
+    public void Test15() throws Exception {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         date = sf.parse("2021-12-06 12:12:12");
@@ -304,7 +310,7 @@ public class MyTest {
 
     /*Json测试*/
     @Test
-    public void Test16(){
+    public void Test16() {
         User user = new User();
         user.setName("程");
         user.setAge(19);
@@ -321,25 +327,55 @@ public class MyTest {
 
     /*正则表达式*/
     @Test
-    public void Test17(){
+    public void Test17() {
         String s = "17176096614";
 
         String regex = "^((13[0-9])|(14[0,1,4-9])|(15[0-3,5-9])|(16[2,5,6,7])|(17[0-8])|(18[0-9])|(19[0-3,5-9]))\\d{8}$";//定义手机好规则
         boolean flag = s.matches(regex);//判断功能
-        System.out.println("flag:"+flag);
+        System.out.println("flag:" + flag);
 
         String word = "〇";
         String regex2 = "^[\\u4e00-\\u9fa5]{0,}$";
         boolean flag2 = word.matches(regex2);//判断功能
         System.out.println(flag2);
     }
-    @Test
-    public void Test18(){
-        String a="hello";
 
-        String b="hello";
+    @Test
+    public void Test18() {
+        String a = "hello";
+
+        String b = "hello";
 
         HashMap<String, String> hashMap = new HashMap<>();
         Map<String, String> hashMap2 = new HashMap<>();
+    }
+
+    @Test
+    public void Test19() {
+//        User user = new User();
+//        user.setName("程");
+//        user.setAge(19);
+//        User user2 = new User();
+//        user2.setName("易");
+//        user2.setAge(11);
+//        List<User> list = new ArrayList<>();
+//        list.add(user2);
+//        list.add(user);
+//        redisTemplate.opsForList().leftPush("user:administrator:list", list);
+//
+//        String[] books = new String[] {"java编程思想", "springboot从入门到精通"};
+//        redisTemplate.opsForList().leftPushAll("book:list", books);
+//        //从左边插入一个集合
+//        List<String> list2 = new ArrayList<String>();
+//        list2.add("鬼泣5");
+//        list2.add("荒野大镖客2");
+//        list2.add("仙剑奇侠传7");
+//        redisTemplate.opsForList().leftPushAll("game:list", list2);
+//        redisUtil.expire("user:administrator:list", 10);
+//        System.out.println(redisUtil.get("a:b:c:username"));
+        System.out.println(redisTemplate.hasKey("a:b:c:username"));
+        System.out.println(redisTemplate.hasKey("book:list"));
+        System.out.println(redisTemplate.opsForList().index("book:list", 0));
+        System.out.println(redisTemplate.opsForValue().get("a:b:c:username"));
     }
 }

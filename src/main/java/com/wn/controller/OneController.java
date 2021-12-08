@@ -1,11 +1,12 @@
 package com.wn.controller;
 
+
 import com.wn.entity.User;
 import com.wn.service.UserService;
-import com.wn.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,8 +18,11 @@ import java.util.List;
 @RequestMapping("one")
 public class OneController {
 
+    @Resource(name = "userService2Impl")
+    private UserService userService2;
+
     @Autowired
-    private UserService userService;
+    private UserService userService2Impl;
 
     @PostMapping("/one")
     public String first(@RequestBody User name) {
@@ -35,17 +39,17 @@ public class OneController {
 
     @PostMapping("/queryUser")
     public List<User> queryUser() {
-        return userService.queryUser();
+        return userService2Impl.queryUser();
     }
 
     @PostMapping("/addUser")
     public int addUser() {
-        int i = userService.addUser();
+        int i = userService2Impl.addUser();
         return i;
     }
     @PostMapping("/selectUser")
     public int selectUser() {
-        int i = userService.selectUser();
+        int i = userService2Impl.selectUser();
         return i;
     }
 }
