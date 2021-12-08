@@ -1,0 +1,80 @@
+import com.wn.RandomApplication;
+import com.wn.entity.User;
+import com.wn.mapper.UserMapper;
+import com.wn.utils.RedisUtil;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = RandomApplication.class)
+public class MyTest2 {
+
+    private static final User user = new User(1L, "李", 10);
+    private static final String[] a = {"1", "2", "3", "4", null, "", " ", "一"};
+    private static final String[] b = {"1", "2", "3", "4", "", " ", "一"};
+    private static final String[] c = {"1", "2", "3", "4", " ", "一"};
+    private static final String s1 = "123";
+    private static final String s2 = "abc";
+    private static final String s3 = "一二三";
+    private static final String s4 = "";
+    private static final String s5 = " ";
+    private static final String s6 = null;
+    private static final String set1 = "set";
+    private static final String set2 = "set2";
+
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Test
+    public void Test0(){
+        redisTemplate.opsForSet().intersect(set1, set2);
+    }
+    @Test
+    public void Test1(){
+
+    }
+    @Test
+    public void Test2(){
+
+    }
+    @Test
+    public void Test3(){
+
+    }
+    @Test
+    public void Test4(){
+
+    }
+    @Test
+    public void Test5(){
+
+    }
+    @Test
+    public void Test6(){
+
+    }
+    @Test
+    public void Test7(){
+
+    }
+    @Test
+    public void Test8(){
+
+    }
+    @Test
+    public void Test9(){
+
+    }
+    @Test
+    public void Test10(){
+
+    }
+}
