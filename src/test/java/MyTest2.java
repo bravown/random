@@ -72,7 +72,7 @@ public class MyTest2 {
 
     @Test
     public void Test4() {
-
+        System.out.println("k");
     }
 
     @Test
