@@ -73,6 +73,8 @@ public class MyTest2 {
     @Test
     public void Test4() {
         System.out.println("我新建了一个分支!");
+        System.out.println("k");
+        System.out.println("k");
     }
 
     @Test
