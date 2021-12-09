@@ -13,5 +13,8 @@ public class AutowiredAndResourceTest {
     UserService userService2;
     @Resource
     UserService userService3;
+    @Resource
+    UserService userService4;
+
 
 }
