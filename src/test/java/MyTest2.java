@@ -82,7 +82,7 @@ public class MyTest2 {
 
     @Test
     public void Test6() {
-
+        System.out.println("disan");
     }
 
     @Test
