@@ -77,7 +77,7 @@ public class MyTest2 {
 
     @Test
     public void Test5() {
-
+        System.out.println("我新建的第二个分支!");
     }
 
     @Test
