@@ -105,7 +105,6 @@ public class MyTest2 {
 
     @Test
     public void Test10() {
-        System.out.println("he" +
-                "");
+        System.out.println("he");
     }
 }
