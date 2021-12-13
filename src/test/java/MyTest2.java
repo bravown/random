@@ -100,7 +100,7 @@ public class MyTest2 {
 
     @Test
     public void Test9() {
-
+        System.out.println("改了");
     }
 
     @Test
