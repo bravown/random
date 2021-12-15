@@ -5,6 +5,10 @@ spring:
   mvc:
     view:
       suffix: .vm
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 127.0.0.1:9300 #java的客户端要用9300 服务器地址 配置es的地址
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

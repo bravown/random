@@ -71,6 +71,7 @@ public class ElasticSearchTest {
      */
     @Test
     public void existsIndexTest() throws IOException {
+
         // 1. 创建一个get请求获取指定索引的信息
         GetIndexRequest getIndexRequest = new GetIndexRequest("o2_index");
 
@@ -197,12 +198,12 @@ public class ElasticSearchTest {
         List<User> list = new ArrayList<>();
         User user = null;
         for (int i = 1; i <= 10; i++) {
-            user = new User((long) i,"姓名" + i, 20+i);
+            user = new User((long) i, "姓名" + i, 20 + i);
             list.add(user);
         }
 
         // 2. 将多条数据批量的放入bulkRequest中
-        for (int i = 0; i <list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             // 批量更新和批量删除在这里修改对应的请求即可
             bulkRequest.add(new IndexRequest("o1_index")
                     .id("" + i)
@@ -239,5 +240,12 @@ public class ElasticSearchTest {
         SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         System.out.println(JSON.toJSONString(response));
         System.out.println(JSON.toJSONString(response.getHits().getHits()));
+    }
+
+
+    /*查看所有索引、类型。文档*/
+    @Test
+    public void Test1() throws IOException {
+
     }
 }
