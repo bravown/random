@@ -1,0 +1,36 @@
+server:
+  port: 8082
+spring:
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: 192.168.66.131
+    listener:
+      simple:
+        acknowledge-mode: manual #开启手动ACK
+#    publisher-confirm-type: simple #开启confirm机制
+    publisher-returns: true #开启return机制
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/random?serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # 数据库连接池，用的阿里的druid
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    filters: stat,wall,log4j
+    initialSize: 5
+    maxActive: 50
+    maxPoolPreparedStatementPerConnectionSize: 20
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 300000
+    minIdle: 5
+    poolPreparedStatements: true
+    testOnBorrow: false
+    testOnReturn: false
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    useGlobalDataSourceStat: true
