@@ -45,4 +45,11 @@ public class RabbitMQTest {
         rabbitTemplate.convertAndSend("OliverDirectExchange", "TestDirectRouting", map);
     }
 
+    @Test
+    public void send() {
+
+        String msg = "这就是第一条测试！";
+        rabbitTemplate.convertAndSend("ForeverDirectExchange", "forever.direct.routing", msg);
+    }
+
 }
