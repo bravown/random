@@ -37,12 +37,11 @@ spring:
     port: 5672
     username: guest
     password: guest
-    #virtual-host:
-    # ------- 消息确认配置项 --------
+    # 消息确认配置项
     # 确认消息已发送到交换机
-    #publisher-confirms: true
+    publisher-confirms: true
     # 确认消息已发送队列
-    #publisher-returns: true
+    publisher-returns: true
 
   redis:
     database: 0

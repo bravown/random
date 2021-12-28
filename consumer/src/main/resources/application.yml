@@ -1,16 +1,19 @@
 server:
   port: 8082
+
 spring:
+  #给项目来个名字
+  application:
+    name: rabbitmq-consumer
+  #配置rabbitMq 服务器
   rabbitmq:
+    host: 192.168.66.131
     port: 5672
     username: guest
     password: guest
-    host: 192.168.66.131
-    listener:
-      simple:
-        acknowledge-mode: manual #开启手动ACK
-#    publisher-confirm-type: simple #开启confirm机制
-    publisher-returns: true #开启return机制
+    #消息确认配置项
+    #确认消息已发送到队列(Queue)
+    publisher-returns: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
