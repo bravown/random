@@ -7,6 +7,7 @@ import javax.annotation.Resource;
  * @author 王宁 2021/12/8
  */
 public class AutowiredAndResourceTest {
+
     @Autowired
     UserService userService;
     @Autowired

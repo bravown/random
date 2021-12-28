@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
+ * 消费者创建队列、交换机，并将两者绑定在一起（绑定的时候要设置路由键）
+ *
  * @Author : JCccc
  * @CreateTime : 2019/9/3
  * @Description :
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class DirectRabbitConfig {
 
-    //队列 起名：TestDirectQueue
+    // 创建队列 起名：TestDirectQueue
     @Bean
     public Queue TestDirectQueue() {
         // durable:是否持久化,默认是false,持久化队列：会被存储在磁盘上，当消息代理重启时仍然存在，暂存队列：当前连接有效
@@ -28,17 +30,21 @@ public class DirectRabbitConfig {
         return new Queue("TestDirectQueue", true);
     }
 
-    //Direct交换机，起名：TestDirectExchange
+    // 创建Direct交换机，起名：TestDirectExchange
     @Bean
     DirectExchange TestDirectExchange() {
         //  return new DirectExchange("TestDirectExchange",true,true);
         return new DirectExchange("TestDirectExchange", true, false);
     }
 
-    //绑定，将队列和交换机绑定，并设置用于匹配键：TestDirectRouting
+    // 绑定，将队列和交换机绑定，并设置用于匹配键：TestDirectRouting
     @Bean
     Binding bindingDirect() {
-        return BindingBuilder.bind(TestDirectQueue()).to(TestDirectExchange()).with("TestDirectRouting");
+        // bing队列to交换机with路由键
+        return BindingBuilder
+                .bind(TestDirectQueue())
+                .to(TestDirectExchange())
+                .with("TestDirectRouting");
     }
 
     @Bean
