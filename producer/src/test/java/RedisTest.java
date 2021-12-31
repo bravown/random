@@ -1,6 +1,5 @@
 import com.wn.RandomApplication;
 import com.wn.entity.User;
-import com.wn.mapper.UserMapper;
 import com.wn.utils.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +28,6 @@ public class RedisTest {
     private static final String s5 = " ";
     private static final String s6 = null;
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired

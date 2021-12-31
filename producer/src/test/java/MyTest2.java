@@ -1,6 +1,5 @@
 import com.wn.RandomApplication;
 import com.wn.entity.User;
-import com.wn.mapper.UserMapper;
 import com.wn.utils.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +29,6 @@ public class MyTest2 {
     private static final String set1 = "set1";
     private static final String set2 = "set2";
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired

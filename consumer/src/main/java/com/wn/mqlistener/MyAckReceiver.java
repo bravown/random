@@ -26,14 +26,12 @@ public class MyAckReceiver implements ChannelAwareMessageListener {
                 System.out.println("消费的消息来自的队列名为："+message.getMessageProperties().getConsumerQueue());
                 System.out.println("消息成功消费到  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
                 System.out.println("执行TestDirectQueue中的消息的业务处理流程......");
-
             }
 
             if ("fanout.A".equals(message.getMessageProperties().getConsumerQueue())){
                 System.out.println("消费的消息来自的队列名为："+message.getMessageProperties().getConsumerQueue());
                 System.out.println("消息成功消费到  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
                 System.out.println("执行fanout.A中的消息的业务处理流程......");
-
             }
 
             channel.basicAck(deliveryTag, true);

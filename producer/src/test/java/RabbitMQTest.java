@@ -5,7 +5,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,6 +49,7 @@ public class RabbitMQTest {
         manMap.put("createTime", createTime);
         rabbitTemplate.convertAndSend("topicExchange", "topic.man", manMap);
     }
+
     @Test
     public void sendTopicMessage2() {
         String messageId = String.valueOf(UUID.randomUUID());
@@ -61,6 +61,7 @@ public class RabbitMQTest {
         womanMap.put("createTime", createTime);
         rabbitTemplate.convertAndSend("topicExchange", "topic.woman", womanMap);
     }
+
     /*以下方法测试扇形交换机*/
     @Test
     public void sendFanoutMessage() {
@@ -73,6 +74,7 @@ public class RabbitMQTest {
         map.put("createTime", createTime);
         rabbitTemplate.convertAndSend("fanoutExchange", null, map);
     }
+
     /*没有交换机的生产反馈测试*/
     @Test
     public void TestMessageAck() {
@@ -85,6 +87,7 @@ public class RabbitMQTest {
         map.put("createTime", createTime);
         rabbitTemplate.convertAndSend("non-existent-exchange", "TestDirectRouting", map);
     }
+
     /*有交换机没队列的生产反馈测试*/
     @Test
     public void TestMessageAck2() {
@@ -97,4 +100,4 @@ public class RabbitMQTest {
         map.put("createTime", createTime);
         rabbitTemplate.convertAndSend("lonelyDirectExchange", "TestDirectRouting", map);
     }
-    }
+}

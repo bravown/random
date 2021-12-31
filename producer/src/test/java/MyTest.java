@@ -1,9 +1,7 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.wn.RandomApplication;
 import com.wn.entity.User;
-import com.wn.mapper.UserMapper;
 import com.wn.utils.RedisUtil;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,8 +39,6 @@ public class MyTest {
     private static final String s5 = " ";
     private static final String s6 = null;
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
@@ -113,8 +109,7 @@ public class MyTest {
         }
 
 
-        CollectionUtils.isNotEmpty(element);
-        Collections.emptyEnumeration();
+
     }
 
     @Test
