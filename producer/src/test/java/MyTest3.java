@@ -5,7 +5,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +30,41 @@ public class MyTest3 {
     public void Test02() {
         List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
         // 获取对应的平方数,并去重
+        // 这个map()方法看起来像是把->后的结果替换到原来的元素。
         List<Integer> squaresList = numbers.stream().map(i -> i * i).distinct().collect(Collectors.toList());
         System.out.println(squaresList);
     }
+
+    @Test
+    public void Test03() {
+        Random random = new Random();
+        System.out.println(random.nextInt());
+        System.out.println(random.nextInt());
+        random.ints().limit(10).sorted().forEach(System.out::println);
+    }
+
+    @Test
+    public void Test04() {
+        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+        List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
+
+        System.out.println("筛选列表: " + filtered);
+        // 下面这个跟上面的不同之处是下面的是输出元素，并在元素间用 - 隔开。而上面的是输出一个集合，输出结果两边还带着[]。
+        String mergedString = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.joining(" - "));
+        System.out.println("合并字符串: " + mergedString);
+    }
+
+    @Test
+    /*统计*/
+    public void Test05() {
+        List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
+
+        IntSummaryStatistics stats = numbers.stream().mapToInt((x) -> x).summaryStatistics();
+
+        System.out.println("列表中最大的数 : " + stats.getMax());
+        System.out.println("列表中最小的数 : " + stats.getMin());
+        System.out.println("所有数之和 : " + stats.getSum());
+        System.out.println("平均数 : " + stats.getAverage());
+    }
+
 }
