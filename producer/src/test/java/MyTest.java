@@ -30,7 +30,7 @@ import java.util.*;
 @SpringBootTest(classes = RandomApplication.class)
 public class MyTest {
 
-    private static final User user = new User(1L,"李",10);
+    private static final User user = new User(1L,"李",10,null);
     private static final String a[] = {"1", "2", "3", "4", null, "", " ", "一"};
     private static final String s1 = "123";
     private static final String s2 = "abc";

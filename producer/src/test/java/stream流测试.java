@@ -1,21 +1,68 @@
 import com.wn.RandomApplication;
+import com.wn.entity.Team;
+import com.wn.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * stream()方法的测试，也可当作笔记
+ * 测试的方法：
+ * 1、将一个对象的某一个成员变量取出来，这个成员变量可能是变量，也可能是对象，然后取里面的值当作key或value，转成list或map
+ *
  * @author 王宁 2021/11/18
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RandomApplication.class)
-public class MyTest3 {
+public class stream流测试 {
+
+
+    static User initUser = new User(1L, "张三", 23,
+            new Team(1L, "Haier", "青岛市",
+                    new ArrayList<String>() {{
+                        add("山东省");
+                        add("青岛市");
+                        add("崂山区");
+                    }}, new HashMap<String, String>() {{
+                put("boos1", "张三");
+                put("boos2", "李四");
+            }}, null));
+    static Team initTeam = new Team(1L, "Haier", "青岛市", null, null, new ArrayList<User>() {{
+        add(initUser);
+    }});
+
+    @Test
+    /**
+     * 列举以下测试用例:
+     * 1. 成员变量是对象,对象有一个list成员变量,把这个list转为set
+     * 2. 成员变量是对象,对象有一个list成员变量,且里面放的是实体类,把这个list转为流,并把这个里面实体类对象的某两个属性拿出来,作为key或value
+     * 3.
+     */
+    public void 第1个() {
+        System.out.println(initUser);
+        // 1
+        Set<String> collect = initUser.getTeam().getRegion().stream().collect(Collectors.toSet());
+        System.out.println(collect);
+        // 2 当key有冲突的时候,选择的value是之前的key的.
+        // 而且前两个参数必须是映射函数,也就是::,第三个是解决冲突的合并函数
+        Map<Long, String> collect1 = initTeam.getStaff().stream().collect(Collectors.toMap(User::getId, User::getName, (k1, k2) -> k1));
+        System.out.println(collect1);
+
+
+    }
+
+    @Test
+    public void map(){
+        HashMap map = new HashMap<String, String>();
+        map.put("1","1");
+        map.put("2","1");
+
+    }
+
     @Test
     public void Test01() {
         List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", " ", "jkl");
@@ -27,7 +74,7 @@ public class MyTest3 {
     }
 
     @Test
-    public void Test02() {
+    public void 你好() {
         List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
         // 获取对应的平方数,并去重
         // 这个map()方法看起来像是把->后的结果替换到原来的元素。

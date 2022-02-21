@@ -21,13 +21,12 @@ public class User implements Serializable {
     private Long id;
     private String name;
     private Integer age;
+    private Team team;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+
+    public User(Long id, String name, Integer age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
     }
 }
