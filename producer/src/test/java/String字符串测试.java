@@ -17,18 +17,13 @@ public class String字符串测试 {
     @Test
     public void 替换测试() {
         String b = "abcabcabc";
-
         b = b.replace("b", "");
         //这个方法是替换所有的，如果是想找第一个是b的，可以如下
         System.out.println(b);
         String s = "abcabcabc";
-
         int i = s.indexOf("b");
-
         s = s.substring(0, i) + s.substring(i + 1);
-
         System.out.println(s);
-
         System.out.println(UUID.randomUUID().toString().substring(0, 7));
     }
 
