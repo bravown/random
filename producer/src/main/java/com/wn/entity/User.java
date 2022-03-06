@@ -24,6 +24,7 @@ public class User implements Serializable {
     private Integer age;
     private Team team;
     private List<Object> list;
+    private String adress;
 
     public User(Long id, String name, Integer age) {
         this.id = id;
