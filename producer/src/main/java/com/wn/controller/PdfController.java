@@ -27,6 +27,29 @@ import java.util.Base64;
 public class PdfController {
 
     /**
+     * 解码lazada GetAwbDocumentHtml接口返回到base64字符串，并获取其中的pdf文件url
+     *
+     * @param base64String base64字符串
+     * @param filePath     下载到到路径
+     * @throws IOException
+     */
+    public void base64ToPdf(String base64String, String filePath, HttpServletResponse response) throws IOException {
+
+        // 解码base64
+        final Base64.Decoder decoder = Base64.getDecoder();
+        String lazadaReturn = new String(decoder.decode(base64String), "UTF-8");
+
+        Document doc = Jsoup.parseBodyFragment(lazadaReturn);
+        //得到标签内容
+        Element element = doc.getElementsByTag("iframe").get(0);
+        // 获取lazada返回参数的src属性的值
+        String lazadaPdfUrl = element.attr("src");
+
+        // 下载pdf文件到指定路径
+        pdfDownload(lazadaPdfUrl, filePath, response);
+    }
+
+    /**
      * 根据pdf url，下载pdf到指定到路径
      */
     @GetMapping(value = "/download")
@@ -96,26 +119,4 @@ public class PdfController {
         return ext.toLowerCase();
     }
 
-    /**
-     * 解码lazada GetAwbDocumentHtml接口返回到base64字符串，并获取其中的pdf文件url
-     *
-     * @param base64String base64字符串
-     * @param filePath     下载到到路径
-     * @throws IOException
-     */
-    public void base64ToPdf(String base64String, String filePath, HttpServletResponse response) throws IOException {
-
-        // 解码base64
-        final Base64.Decoder decoder = Base64.getDecoder();
-        String lazadaReturn = new String(decoder.decode(base64String), "UTF-8");
-
-        Document doc = Jsoup.parseBodyFragment(lazadaReturn);
-        //得到标签内容
-        Element element = doc.getElementsByTag("iframe").get(0);
-        // 获取lazada返回参数的src属性的值
-        String lazadaPdfUrl = element.attr("src");
-
-        // 下载pdf文件到指定路径
-        pdfDownload(lazadaPdfUrl, filePath, response);
-    }
 }
