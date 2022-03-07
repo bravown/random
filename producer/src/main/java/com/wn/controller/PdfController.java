@@ -1,16 +1,23 @@
 package com.wn.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 
 /**
  * @author 王宁 2022/3/6
@@ -19,22 +26,24 @@ import java.net.URL;
 @RequestMapping("pdf")
 public class PdfController {
 
-    @GetMapping(value = "/cxfKp/download")
-    public void invoiceDownload(String url, HttpServletResponse response) throws UnsupportedEncodingException {
+    /**
+     * 根据pdf url，下载pdf到指定到路径
+     */
+    @GetMapping(value = "/download")
+    public void pdfDownload(String url, String filePath, HttpServletResponse response) {
 
         ServletOutputStream out = null;
         InputStream ips = null;
-        URL oracle = null;
-        url = "https://sellercenter.lazada.com.my/oss/proxy/waybillprintbucket.oss-ap-southeast-1.aliyuncs.com/PDF/b30b59a6-dabd-4937-8dd9-ee7e3b72199d?Expires=1646579521&OSSAccessKeyId=TMP.3KdNus6EwTnH1BeCYSWN7oDkVFaMp3RBmSJVSL2njLBAQ9MycbJZ1Py4ZjaFMTmstcMXj6DSj8j4HMtYkubHgmqEfmHA6A&Signature=XEvhzfafUhaER7TbE4TRa8ldYfo%3D";
+        URL pdfUrl = null;
         try {
-            oracle = new URL(url);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
+            pdfUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
             return;
         }
         HttpURLConnection uc = null;
         try {
-            uc = (HttpURLConnection) oracle.openConnection();
+            uc = (HttpURLConnection) pdfUrl.openConnection();
         } catch (IOException e1) {
             e1.printStackTrace();
             return;
@@ -44,7 +53,6 @@ public class PdfController {
             uc.connect();
             //文件名
             String newFileName = fileName(url);
-            //newFileName="电子发票.pdf";//重命名电子发票
             ips = uc.getInputStream();
             response.setContentType("multipart/form-data");
             //为文件重新设置名字，采用数据库内存储的文件名称
@@ -54,15 +62,12 @@ public class PdfController {
             int len = 0;
             byte[] buffer = new byte[1024 * 10];
 
-
-            OutputStream shuchu = new FileOutputStream("D:\\迅雷下载\\report.pdf");
+            OutputStream outputStream = new FileOutputStream(filePath + "/lazada.pdf");
 
             while ((len = ips.read(buffer)) != -1) {
-//                out.write(buffer, 0, len);
-                shuchu.write(buffer,0,len);
-
+                outputStream.write(buffer, 0, len);
             }
-            out.flush();
+            outputStream.flush();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,17 +79,13 @@ public class PdfController {
                 e.printStackTrace();
             }
         }
-        return;
-
     }
 
     /**
      * 获取文件名字
-     *
-     * @param fileName
-     * @return
      */
     private String fileName(String fileName) {
+
         String ext = null;
         if (StringUtils.isNotBlank(fileName)) {
             int offset = fileName.lastIndexOf("/");
@@ -93,5 +94,28 @@ public class PdfController {
             }
         }
         return ext.toLowerCase();
+    }
+
+    /**
+     * 解码lazada GetAwbDocumentHtml接口返回到base64字符串，并获取其中的pdf文件url
+     *
+     * @param base64String base64字符串
+     * @param filePath     下载到到路径
+     * @throws IOException
+     */
+    public void base64ToPdf(String base64String, String filePath, HttpServletResponse response) throws IOException {
+
+        // 解码base64
+        final Base64.Decoder decoder = Base64.getDecoder();
+        String lazadaReturn = new String(decoder.decode(base64String), "UTF-8");
+
+        Document doc = Jsoup.parseBodyFragment(lazadaReturn);
+        //得到标签内容
+        Element element = doc.getElementsByTag("iframe").get(0);
+        // 获取lazada返回参数的src属性的值
+        String lazadaPdfUrl = element.attr("src");
+
+        // 下载pdf文件到指定路径
+        pdfDownload(lazadaPdfUrl, filePath, response);
     }
 }

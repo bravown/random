@@ -1,4 +1,7 @@
 import com.wn.RandomApplication;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -647,8 +650,19 @@ public class 文件的操作测试 {
             e.printStackTrace();
         }
     }
+
     @Test
-    public void htmlToPdf() throws Exception {
+    public void base64ToPdf() throws IOException {
+        // 解码base64
+//        String base64 = base64String;
+        final Base64.Decoder decoder = Base64.getDecoder();
+//        String pdf = new String(decoder.decode(base64), "UTF-8");
+        String pdf = "<iframe src=\"https://sellercenter.lazada.com.my/oss/proxy/waybillprintbucket.oss-ap-southeast-1.aliyuncs.com/PDF/35202a46-7aae-442b-93c8-cdf3a4f4a35d?Expires=1646578816&OSSAccessKeyId=TMP.3KdNus6EwTnH1BeCYSWN7oDkVFaMp3RBmSJVSL2njLBAQ9MycbJZ1Py4ZjaFMTmstcMXj6DSj8j4HMtYkubHgmqEfmHA6A&Signature=D8Pec5wHpk1%2FoNOUGxAqNvAwxl8%3D\" width=\"100%\" height=\"100%\" style=\"display: block;min-height: 990px;\"></iframe>";
+        Document doc = Jsoup.parseBodyFragment(pdf);
+        Element e_a = (Element) doc.getElementsByTag("iframe").get(0);//得到第一个a标签内容
+        String href = e_a.attr("src");
+
+        System.out.println(href);
 
     }
 }
