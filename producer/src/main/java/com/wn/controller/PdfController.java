@@ -1,16 +1,17 @@
 package com.wn.controller;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.HmacUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.lazada.lazop.api.LazopClient;
+import com.lazada.lazop.api.LazopRequest;
+import com.lazada.lazop.api.LazopResponse;
+import com.lazada.lazop.util.ApiException;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.Mac;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
@@ -19,74 +20,90 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
+ * 下载PDF到指定路径
+ *
  * @author 王宁 2022/3/6
  */
 @RestController
 @RequestMapping("pdf")
 public class PdfController {
 
-    public Boolean downloadLazadaPdf(String filePath, HttpServletResponse response) throws IOException, InterruptedException {
-        String aa = "27df6b30502b2fd457864fbaaced6c054c90b5a6c92e59b0dfcbe7f145588465";
+    /**
+     * 默认的PDF文件名字
+     */
+    private static final String defaultPdfName = "/lazada.pdf";
 
-        long timestamp = (new Date().getTime()) / 1000;
+    /**
+     * 下载PDF到指定路径
+     *
+     * @param filePath 指定路径
+     * @param resp
+     */
+    @PostMapping("/download")
+    public Boolean downloadLazadaPdf(@RequestBody JSONObject filePath, HttpServletResponse resp) throws InterruptedException, ApiException, IOException {
 
-        String url = "https://partner.shopeemobile.com/api/v1/logistics/forder_waybill/get_mass";
+        if (Objects.isNull(filePath)) {
+            return false;
+        }
 
-        String body = "{\"partner_id\":2003284,\"timestamp\":" + timestamp + ",\"orders_list\":[\"ordersn\":\"220228MY6DR5H5\",\"package_number\":\"# TL5547917843\"],\"shopid\":96947910}";
+        // 接口数据
+        String url = "https://api.lazada.com.my/rest";
+        String appkey = "106910";
+        String appSecret = "aJzraVsOcsMarXYJOXzheXirBVDUCXW9";
+        String accessToken = "50000600a27NQw9iBNyqPg9YFYcKPauuEBdES6o1d68452aRyCmdNH4kuJC4omGs";
 
+        // 调用接口
+        LazopClient client = new LazopClient(url, appkey, appSecret);
+        LazopRequest request = new LazopRequest();
+        request.setApiName("/order/document/awb/pdf/get");
+        request.setHttpMethod("GET");
+        request.addApiParameter("order_item_ids", "[323438867703989]");
+        LazopResponse response = client.execute(request, accessToken);
+        System.out.println(response.getBody());
+        Thread.sleep(10);
 
-        String method = "POST";
-        Mac mac = HmacUtils.getInitializedMac("HmacSHA256", aa.getBytes(StandardCharsets.UTF_8));
-        mac.reset();
-        String sign = Hex.encodeHexString(mac.doFinal((url + '|' + body).getBytes(StandardCharsets.UTF_8)));
-        HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url));
-        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(body, StandardCharsets.UTF_8);
-        HttpRequest request = builder.header("Content-Type", "application/json").header("Authorization", sign)
-                .method(method, bodyPublisher).build();
-        HttpClient.Builder clientBuilder = HttpClient.newBuilder();
-        HttpClient client = clientBuilder.version(HttpClient.Version.HTTP_1_1).build();
-        HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-
-        String base64PdfUrl = getBase64PdfUrl(resp.body(), filePath, response);
-        return downloadPdf(base64PdfUrl, filePath, response);
+        // 处理结果
+        String base64PdfUrl = getBase64PdfUrl(response.getBody());
+        // 下载PDF
+        return downloadPdf(base64PdfUrl, filePath.getString("filePath"), resp);
     }
 
     /**
-     * 解码lazada GetAwbDocumentHtml接口返回到base64字符串，并获取其中的pdf文件url
+     * 解码lazada GetAwbDocumentHtml接口返回的base64字符串，并获取其中PDF文件的url
      *
-     * @param base64String base64字符串
-     * @param filePath     下载到到路径
-     * @throws IOException
+     * @param lazadaReturn base64字符串
      */
-    public String getBase64PdfUrl(String base64String, String filePath, HttpServletResponse response) throws IOException {
+    public String getBase64PdfUrl(String lazadaReturn) throws IOException {
 
         // 解码base64
         final Base64.Decoder decoder = Base64.getDecoder();
-        String lazadaReturn = new String(decoder.decode(base64String), "UTF-8");
-
-        Document doc = Jsoup.parseBodyFragment(lazadaReturn);
-        //得到标签内容
+        // 获取base64的file字段中的值
+        String base64String = getJsonAttribute(lazadaReturn);
+        // 解码base64
+        String base64Decode = new String(decoder.decode(base64String), "UTF-8");
+        // 获取PDF的url
+        Document doc = Jsoup.parseBodyFragment(base64Decode);
+        // 得到标签内容
         Element element = doc.getElementsByTag("iframe").get(0);
         // 获取lazada返回参数的src属性的值
         return element.attr("src");
     }
 
     /**
-     * 根据pdf url，下载pdf到指定到路径
+     * 根据PDF的url，下载PDF到指定到路径
      */
     @GetMapping(value = "/download")
     public Boolean downloadPdf(String url, String filePath, HttpServletResponse response) {
 
+        if (Objects.isNull(url)) {
+            return false;
+        }
         ServletOutputStream out = null;
         InputStream ips = null;
         URL pdfUrl = null;
@@ -117,7 +134,7 @@ public class PdfController {
             int len = 0;
             byte[] buffer = new byte[1024 * 10];
 
-            OutputStream outputStream = new FileOutputStream(filePath + "/lazada.pdf");
+            OutputStream outputStream = new FileOutputStream(filePath + defaultPdfName);
 
             while ((len = ips.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, len);
@@ -150,6 +167,24 @@ public class PdfController {
             }
         }
         return ext.toLowerCase();
+    }
+
+    /**
+     * 获取lazada返回的base64字符串
+     *
+     * @param jsonString json字符串
+     * @return base64字符串
+     */
+    public String getJsonAttribute(String jsonString) {
+
+        JSONObject jsonObj = JSON.parseObject(jsonString);
+
+        // 报文获取file
+        return Optional.ofNullable(jsonObj)
+                .flatMap(jsonObject -> Optional.ofNullable(jsonObject.getJSONObject("data")))
+                .flatMap(jsonObject -> Optional.ofNullable(jsonObject.getJSONObject("document")))
+                .flatMap(jsonObject -> Optional.ofNullable(jsonObject.getString("file")))
+                .orElse(null);
     }
 
 }

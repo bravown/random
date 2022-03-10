@@ -1,8 +1,6 @@
 import com.wn.RandomApplication;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -10,7 +8,6 @@ import java.util.UUID;
 /**
  * @author 王宁 2021/12/16
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = RandomApplication.class)
 public class String字符串测试 {
 
@@ -58,6 +55,12 @@ public class String字符串测试 {
         Arrays.sort(strArray);
         int ind4 = Arrays.binarySearch(strArray, "bc");
         System.out.println("'bc'的查找位置是：" + ind4);
+    }
+
+    @Test
+    public void Test01() {
+        String a = "aa22222a";
+        System.out.println(a.indexOf("22aa"));
     }
 
 }
