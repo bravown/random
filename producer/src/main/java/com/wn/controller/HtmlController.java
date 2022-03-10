@@ -26,7 +26,7 @@ public class HtmlController {
     /**
      * 默认的HTML文件名字
      */
-    private static final String defaultHtmlName = "/lazada.html";
+    private static final String defaultHtmlName = "lazada.html";
 
     /**
      * 下载HTML文件到指定路径
@@ -111,7 +111,7 @@ public class HtmlController {
         PrintStream printStream = null;
         try {
             // 创建空HTML文件
-            printStream = new PrintStream(new FileOutputStream(filePath + defaultHtmlName));
+            printStream = new PrintStream(new FileOutputStream(filePath + "/" + defaultHtmlName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

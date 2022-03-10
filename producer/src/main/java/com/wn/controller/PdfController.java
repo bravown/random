@@ -36,7 +36,7 @@ public class PdfController {
     /**
      * 默认的PDF文件名字
      */
-    private static final String defaultPdfName = "/lazada.pdf";
+    private static final String defaultPdfName = "lazada.pdf";
 
     /**
      * 下载PDF到指定路径
@@ -130,7 +130,7 @@ public class PdfController {
             int len = 0;
             byte[] buffer = new byte[1024 * 10];
 
-            OutputStream outputStream = new FileOutputStream(filePath + defaultPdfName);
+            OutputStream outputStream = new FileOutputStream(filePath + "/" + defaultPdfName);
 
             while ((len = ips.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, len);
