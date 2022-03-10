@@ -26,7 +26,7 @@ public class HtmlController {
     /**
      * 默认的HTML文件名字
      */
-    private static final String defaultHtmlName = "lazada.html";
+    private static final String defaultHtmlName = "/lazada.html";
 
     /**
      * 下载HTML文件到指定路径
@@ -62,7 +62,6 @@ public class HtmlController {
         request.addApiParameter("doc_type", "shippingLabel");
         request.addApiParameter("order_item_ids", "[323438867703989]");
         LazopResponse response = client.execute(request, accessToken);
-        System.out.println(response.getBody());
         Thread.sleep(10);
 
 

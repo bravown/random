@@ -6,7 +6,6 @@ import com.lazada.lazop.api.LazopClient;
 import com.lazada.lazop.api.LazopRequest;
 import com.lazada.lazop.api.LazopResponse;
 import com.lazada.lazop.util.ApiException;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -46,10 +45,10 @@ public class PdfController {
      * @param resp
      */
     @PostMapping("/download")
-    public Boolean downloadLazadaPdf(@RequestBody JSONObject filePath, HttpServletResponse resp) throws InterruptedException, ApiException, IOException {
+    public void downloadLazadaPdf(@RequestBody JSONObject filePath, HttpServletResponse resp) throws InterruptedException, ApiException, IOException {
 
         if (Objects.isNull(filePath)) {
-            return false;
+            throw new RuntimeException("请选择下载路径！");
         }
 
         // 接口数据
@@ -65,13 +64,12 @@ public class PdfController {
         request.setHttpMethod("GET");
         request.addApiParameter("order_item_ids", "[323438867703989]");
         LazopResponse response = client.execute(request, accessToken);
-        System.out.println(response.getBody());
         Thread.sleep(10);
 
         // 处理结果
         String base64PdfUrl = getBase64PdfUrl(response.getBody());
         // 下载PDF
-        return downloadPdf(base64PdfUrl, filePath.getString("filePath"), resp);
+        downloadPdf(base64PdfUrl, filePath.getString("filePath"), resp);
     }
 
     /**
@@ -99,10 +97,10 @@ public class PdfController {
      * 根据PDF的url，下载PDF到指定到路径
      */
     @GetMapping(value = "/download")
-    public Boolean downloadPdf(String url, String filePath, HttpServletResponse response) {
+    public void downloadPdf(String url, String filePath, HttpServletResponse response) {
 
         if (Objects.isNull(url)) {
-            return false;
+            return;
         }
         ServletOutputStream out = null;
         InputStream ips = null;
@@ -111,24 +109,22 @@ public class PdfController {
             pdfUrl = new URL(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
         HttpURLConnection uc = null;
         try {
             uc = (HttpURLConnection) pdfUrl.openConnection();
         } catch (IOException e1) {
             e1.printStackTrace();
-            return false;
+            return;
         }
         try {
             uc.setDoInput(true);//设置是否要从 URL 连接读取数据,默认为true
             uc.connect();
-            //文件名
-            String newFileName = fileName(url);
             ips = uc.getInputStream();
             response.setContentType("multipart/form-data");
             //为文件重新设置名字，采用数据库内存储的文件名称
-            response.addHeader("Content-Disposition", "attachment; filename=\"" + new String(newFileName.getBytes("UTF-8"), "ISO8859-1") + "\"");
+            response.addHeader("Content-Disposition", "attachment; filename=\"" + new String(defaultPdfName.getBytes("UTF-8"), "ISO8859-1") + "\"");
             out = response.getOutputStream();
             //读取文件流
             int len = 0;
@@ -151,22 +147,7 @@ public class PdfController {
                 e.printStackTrace();
             }
         }
-        return true;
-    }
-
-    /**
-     * 获取文件名字
-     */
-    private String fileName(String fileName) {
-
-        String ext = null;
-        if (StringUtils.isNotBlank(fileName)) {
-            int offset = fileName.lastIndexOf("/");
-            if (offset != -1 && offset != fileName.length() - 1) {
-                ext = fileName.substring(offset + 1);
-            }
-        }
-        return ext.toLowerCase();
+        return;
     }
 
     /**
