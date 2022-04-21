@@ -29,7 +29,12 @@ import java.util.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RandomApplication.class)
 public class MyTest {
-
+    // dev1专属
+    // dev1
+    // master
+    // devb
+    // master
+    private String a22 = "aa";
     private static final User user = new User(1L,"李",10,null);
     private static final String a[] = {"1", "2", "3", "4", null, "", " ", "一"};
     private static final String s1 = "123";
