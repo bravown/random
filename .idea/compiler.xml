@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="producer" />
+        <module name="log" />
         <module name="consumer" />
       </profile>
     </annotationProcessing>
@@ -15,8 +16,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="consumer" options="-parameters" />
+      <module name="log" options="-parameters" />
       <module name="producer" options="-parameters" />
-      <module name="random" options="-parameters" />
+      <module name="random" options="" />
     </option>
   </component>
 </project>
