@@ -1,4 +1,4 @@
-package com.ccreate.zhicai.mp.generator;
+package generator;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
@@ -16,7 +16,7 @@ public class Generator {
 
         // 2、全局配置
         GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setOutputDir(System.getProperty("user.dir") + "/ccreate-zhicai-mp-generator/src/main/java");
+        globalConfig.setOutputDir(System.getProperty("user.dir") + "/random-generator/src/main/java/");
         globalConfig.setAuthor("王宁"); // TODO 修改作者
         globalConfig.setOpen(false);
         globalConfig.setFileOverride(true);
@@ -35,7 +35,7 @@ public class Generator {
         // 4、包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(null); //模块名
-        pc.setParent("com.ccreate.zhicai.goods");
+        pc.setParent("com.wn");
         pc.setController("controller");
         pc.setEntity("entity");
         pc.setService("service.mybatisplus");
