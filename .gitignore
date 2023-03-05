@@ -1,6 +1,4 @@
-# 项目排除路径
 /target/
-
 .idea
-
-MyEmail.eml
+*.iml
+*.log
