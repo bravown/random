@@ -18,7 +18,7 @@ public class MqConnectionUtils {
         connectionFactory.setUsername("guest");
         //设定密码
         connectionFactory.setPassword("guest");
-        //设定虚拟访问节点
+        //设定虚拟访问节点.
         connectionFactory.setVirtualHost("/");
         return connectionFactory.newConnection();
     }
