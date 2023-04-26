@@ -7,7 +7,7 @@ spring:
     name: rabbitmq-consumer
   #配置rabbitMq 服务器
   rabbitmq:
-    host: 192.168.66.131
+    host: 150.158.40.126
     port: 5672
     username: guest
     password: guest

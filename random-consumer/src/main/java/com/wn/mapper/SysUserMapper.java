@@ -1,7 +1,7 @@
 package com.wn.mapper;
 
-import com.wn.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wn.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

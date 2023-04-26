@@ -1,5 +1,5 @@
 import com.rabbitmq.client.*;
-import com.wn.ConsumerAppliaction;
+import com.wn.RandomApplication;
 import com.wn.util.MqConnectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ConsumerAppliaction.class)
+@SpringBootTest(classes = RandomApplication.class)
 public class ConsumerTest {
 
     //设定队列名称(已存在的队列)
@@ -122,6 +122,4 @@ public class ConsumerTest {
             }
         }
     }
-
-    // 写一个rabbitmq的消费者方法
 }

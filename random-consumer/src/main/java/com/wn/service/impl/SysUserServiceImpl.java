@@ -1,10 +1,13 @@
 package com.wn.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wn.entity.SysUser;
 import com.wn.mapper.SysUserMapper;
 import com.wn.service.mybatisplus.ISysUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
+    @Override
+    public List<String> getUserNameList(Date date) {
+        listObjs();
+        return null;
+    }
 }
